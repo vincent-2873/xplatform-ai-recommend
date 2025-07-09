@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI 專案推薦小助手</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; max-width: 800px; margin: auto; }
+    textarea { width: 100%; height: 150px; margin-bottom: 1em; }
+    button { padding: 10px 20px; font-size: 16px; }
+    pre { background: #f3f3f3; padding: 1em; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>🧠 AI 專案推薦小助手</h1>
+  <p>請輸入學員狀況，AI 將推薦合適的專案與話術：</p>
+  <textarea id="input" placeholder="例如：學員是上班族，想學平面設計，每週有 6 小時學習時間..." ></textarea>
+  <button onclick="askGPT()">產生推薦</button>
+  <pre id="output">👉 這裡會顯示推薦結果</pre>
+
+  <script>
+    async function askGPT() {
+      const input = document.getElementById("input").value;
+      const output = document.getElementById("output");
+      output.textContent = "分析中，請稍候...";
+      const res = await fetch("/api", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ input })
+      });
+      const data = await res.json();
+      output.textContent = data.reply;
+    }
+  </script>
+</body>
+</html>
