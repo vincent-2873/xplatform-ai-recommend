@@ -37,7 +37,12 @@ ${userInput}
   });
 
   const data = await response.json();
-  const reply = data.choices[0].message.content;
+  let reply = '⚠️ 發生錯誤，請稍後再試。';
+if (data && data.choices && data.choices.length > 0) {
+  reply = data.choices[0].message.content;
+} else {
+  console.error('OpenAI 回傳格式異常：', JSON.stringify(data));
+}
 
   res.json({ reply });
 });
